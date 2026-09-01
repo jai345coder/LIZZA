@@ -1,0 +1,359 @@
+@import "tailwindcss";
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* CSS Theme Variables */
+:root {
+  --bg-base: #FFF5F0;
+  --bg-surface: #FFFFFF;
+  --bg-surface-hover: #FFF9F6;
+  --bg-input: #FFFFFF;
+  --color-primary: #FF6B35;
+  --color-primary-hover: #E85520;
+  --color-primary-light: #FFEAE0;
+  --color-text-main: #1E1E1E;
+  --color-text-muted: #666666;
+  --color-border: #1E1E1E;
+  --color-green-bg: #CCFF00;
+  --color-green-text: #1E1E1E;
+  --color-success-bg: #DCFCE7;
+  --color-success-text: #15803D;
+  --neo-shadow-color: #1E1E1E;
+}
+
+body.dark, html.dark, .dark {
+  /* Rich Deep Charcoal Dark Theme
+     Base background: #121214 (Rich Dark Charcoal)
+     Surface background: #1C1C1E (Dark Charcoal Card Surface)
+     Hover state: #2C2C2E (Charcoal Hover)
+     Input field: #242426 (Charcoal Input Field) */
+  --bg-base: #121214;
+  --bg-surface: #1C1C1E;
+  --bg-surface-hover: #2C2C2E;
+  --bg-input: #242426;
+
+  /* Primary Accent: Electric Hot Pink #FF007F (matching image tags, badge highlights, pink buttons) */
+  --color-primary: #FF007F;
+  --color-primary-hover: #E0006F;
+  --color-primary-light: #3D001F;
+
+  --color-text-main: #FFFFFF;
+  --color-text-muted: #A0A0A5;
+
+  /* Reduced Brightness White Border (Soft Charcoal Off-White / Muted White Border) */
+  --color-border: rgba(255, 255, 255, 0.45);
+  --neo-shadow-color: #000000;
+
+  /* GREEN / LIME elements: Electric Neon Lime #CCFF00 background with Dark Black text #000000 */
+  --color-green-bg: #CCFF00;
+  --color-green-text: #000000;
+  --color-success-bg: #CCFF00;
+  --color-success-text: #000000;
+}
+
+@layer base {
+  html, body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-base);
+    color: var(--color-text-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* Custom Neubrutalism Utilities */
+.neo-border {
+  border: 2.5px solid var(--color-border);
+}
+
+.neo-border-thick {
+  border: 3px solid var(--color-border);
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0px var(--neo-shadow-color);
+}
+
+.neo-shadow-sm {
+  box-shadow: 2.5px 2.5px 0px var(--neo-shadow-color);
+}
+
+.neo-shadow-lg {
+  box-shadow: 6px 6px 0px var(--neo-shadow-color);
+}
+
+.neo-btn {
+  border: 2.5px solid var(--color-border);
+  box-shadow: 3.5px 3.5px 0px var(--neo-shadow-color);
+  transition: all 0.15s ease-in-out;
+}
+
+.neo-btn:hover {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 5px 5px 0px var(--neo-shadow-color);
+}
+
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--neo-shadow-color);
+}
+
+.neo-card {
+  background: var(--bg-surface);
+  border: 2.5px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: 4px 4px 0px var(--neo-shadow-color);
+}
+
+.neo-badge {
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0px var(--neo-shadow-color);
+}
+
+/* Dark Mode Overrides for Additive Theme Coexistence */
+body.dark {
+  background-color: var(--bg-base) !important;
+  color: var(--color-text-main) !important;
+}
+
+/* 1. Base Background Overrides (#FFF5F0 -> Rich Charcoal #121214) */
+body.dark .bg-\[\#FFF5F0\],
+body.dark .bg-\[\#FFF8F5\],
+body.dark .bg-\[\#FAF6F0\],
+body.dark .bg-\[\#FFF0EB\],
+body.dark .bg-amber-50\/80,
+body.dark .bg-amber-50,
+body.dark .bg-orange-50 {
+  background-color: var(--bg-base) !important;
+}
+
+/* 2. Surface & Card Overrides (White/Grays -> Charcoal Card Surface #1C1C1E) */
+body.dark .bg-white,
+body.dark .bg-slate-50,
+body.dark .bg-gray-50,
+body.dark .bg-stone-50,
+body.dark .bg-gray-100,
+body.dark .bg-slate-100,
+body.dark .bg-zinc-100,
+body.dark .bg-gray-800,
+body.dark .bg-gray-900,
+body.dark .bg-slate-800,
+body.dark .bg-slate-900 {
+  background-color: var(--bg-surface) !important;
+}
+
+body.dark .hover\:bg-white\/80:hover,
+body.dark .hover\:bg-white\/60:hover,
+body.dark .hover\:bg-white:hover,
+body.dark .hover\:bg-gray-100:hover,
+body.dark .hover\:bg-slate-100:hover,
+body.dark .hover\:bg-gray-800:hover {
+  background-color: var(--bg-surface-hover) !important;
+}
+
+/* 3. Primary Accent Overrides (Orange -> Electric Hot Pink #FF007F) */
+body.dark .bg-\[\#FF6B35\],
+body.dark .bg-\[\#FF5A26\],
+body.dark .bg-orange-500,
+body.dark .bg-orange-600 {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+body.dark .hover\:bg-\[\#E85520\]:hover,
+body.dark .hover\:bg-\[\#E55A2B\]:hover,
+body.dark .hover\:bg-\[\#FF5A26\]:hover,
+body.dark .hover\:bg-orange-600:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
+body.dark .text-\[\#FF6B35\],
+body.dark .text-\[\#FF5A26\],
+body.dark .text-orange-500,
+body.dark .text-orange-600 {
+  color: var(--color-primary) !important;
+}
+
+body.dark .border-\[\#FF6B35\],
+body.dark .border-\[\#FF5A26\],
+body.dark .border-orange-500 {
+  border-color: var(--color-primary) !important;
+}
+
+body.dark .ring-\[\#FF6B35\],
+body.dark .ring-orange-500 {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+/* 4. Main & Muted Text Overrides */
+body.dark .text-\[\#1E1E1E\],
+body.dark .text-slate-900,
+body.dark .text-gray-900,
+body.dark .text-black {
+  color: var(--color-text-main) !important;
+}
+
+body.dark .text-slate-600,
+body.dark .text-gray-600,
+body.dark .text-gray-500,
+body.dark .text-slate-500,
+body.dark .text-gray-400,
+body.dark .text-slate-400,
+body.dark .text-zinc-400 {
+  color: var(--color-text-muted) !important;
+}
+
+/* 5. Electric Neon Lime Elements Override (Lime background #CCFF00 with Black text #000000) */
+body.dark .bg-\[\#CCFF00\],
+body.dark .bg-emerald-50,
+body.dark .bg-emerald-100,
+body.dark .bg-emerald-300,
+body.dark .bg-green-50,
+body.dark .bg-green-100,
+body.dark .bg-green-200 {
+  background-color: var(--color-green-bg) !important;
+  color: var(--color-green-text) !important;
+  border-color: #000000 !important;
+}
+
+body.dark .text-emerald-600,
+body.dark .text-emerald-700,
+body.dark .text-emerald-800,
+body.dark .text-emerald-900,
+body.dark .text-green-600,
+body.dark .text-green-700,
+body.dark .text-green-800 {
+  color: var(--color-green-bg) !important;
+}
+
+/* 6. Reduced Brightness White Borders for All Components in Dark Mode */
+body.dark .border-\[\#1E1E1E\],
+body.dark .border-slate-900,
+body.dark .border-black,
+body.dark .border-gray-900,
+body.dark .border-gray-800,
+body.dark .border-gray-700,
+body.dark .border-gray-600,
+body.dark .border-slate-700,
+body.dark .border-slate-800,
+body.dark .border-white {
+  border-color: var(--color-border) !important;
+}
+
+/* 7. Form inputs & controls in Dark Mode */
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background-color: var(--bg-input) !important;
+  color: var(--color-text-main) !important;
+  border-color: var(--color-border) !important;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+  color: var(--color-text-muted) !important;
+}
+
+/* Smooth hide scrollbars for horizontal carousel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 61, 129, 0.4), 3px 3px 0px var(--neo-shadow-color);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 61, 129, 0.8), 3px 3px 0px var(--neo-shadow-color);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+/* Infinite Sliding Marquee */
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: infinite-scroll 22s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Sticker Fade Out Animation (2 Seconds) */
+@keyframes stickerFadeOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(10px);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+  }
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85) translateY(-8px);
+  }
+}
+
+.animate-sticker-fade {
+  animation: stickerFadeOut 2s ease-out forwards;
+}
+
+/* Sticker Fade Out Animation (5 Seconds) for Cursor Trail */
+@keyframes stickerFadeOut5s {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(12px) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.05) translateY(0px);
+  }
+  20% {
+    transform: scale(1) translateY(0px);
+  }
+  75% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-14px);
+  }
+}
+
+.animate-sticker-fade-5s {
+  animation: stickerFadeOut5s 5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
