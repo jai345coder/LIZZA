@@ -26,7 +26,16 @@ app.use(express.json());
 app.use(cookieParser());
  
 const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173', "https://pizza-frontend.onrender.com", "https://lizza.onrender.com"]
-app.use(cors({ origin: 'https://frontend-xi-one-68.vercel.app' }));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 connectDB()
 app.use("/api/auth", router);
 app.use("/api/inventory",  inventoryRouter);
