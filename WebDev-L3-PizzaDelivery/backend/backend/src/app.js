@@ -31,16 +31,44 @@ const allowedOrigins = [
   "https://lizza.onrender.com",
   "https://lizza-iota.vercel.app"
 ]
+// index.js
+
+const allowedOrigins = [
+  "https://lizza-iota.vercel.app",
+  "https://pizza-frontend.onrender.com",
+  "https://lizza.onrender.com"
+];
+
+// If CLIENT_URL exists, clean it up and add it dynamically
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL.trim());
+}
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+    // 1. Allow server-to-server or tools like Postman/cURL (no origin)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    const cleanOrigin = origin.trim();
+
+    // 2. Exact match against our trusted array OR check for vercel subdomains
+    if (allowedOrigins.includes(cleanOrigin) || cleanOrigin.endsWith(".vercel.app")) {
       callback(null, true);
     } else {
+      console.error(`❌ CORS Blocked: ${cleanOrigin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
+
+// 🟢 CRUCIAL: Explicitly catch and auto-approve browser preflight requests
+app.options('*', cors());
+
 connectDB()
 app.use("/api/auth", router);
 app.use("/api/inventory",  inventoryRouter);
