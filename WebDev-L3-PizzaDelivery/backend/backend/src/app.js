@@ -25,7 +25,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
  
-const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173', "https://pizza-frontend.onrender.com", "https://lizza.onrender.com"]
+const allowedOrigins = [
+  (process.env.CLIENT_URL || 'http://localhost:5173').trim(),
+  "https://pizza-frontend.onrender.com",
+  "https://lizza.onrender.com",
+  "https://lizza-iota.vercel.app"
+]
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
