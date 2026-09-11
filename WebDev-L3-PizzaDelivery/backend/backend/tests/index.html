@@ -1,0 +1,52 @@
+document.getElementById('rzp-button1').onclick = function (e) {
+  e.preventDefault();
+
+  // NOTE: yourOrderId must be the Mongo _id of an Order you already created
+  // (e.g. after user clicks "Place Order" and you POST /api/orders first)
+  axios.post('/api/payment/create-order', { orderId: yourOrderId })
+    .then(function (response) {
+      const { razorpayOrderId, amount, currency, key, order } = response.data;
+
+      var options = {
+        key: key,
+        amount: amount,
+        currency: currency,
+        name: "Lizza",
+        description: "Pizza Order Payment",
+        order_id: razorpayOrderId, // matches backend field name now
+        handler: function (response) {
+          axios.post('/api/payment/verify', {
+            razorpayOrderId: response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            signature: response.razorpay_signature,
+            orderId: order._id // pass your Mongo order id too, verify handler will likely need it
+          })
+          .then(function () {
+            alert('Payment verified successfully');
+          })
+          .catch(function (error) {
+            console.error(error);
+            alert('Payment verification failed');
+          });
+        },
+        prefill: {
+          name: "Gaurav Kumar",
+          email: "gaurav.kumar@example.com",
+          contact: "9000090000"
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
+
+      var rzp1 = new Razorpay(options);
+      rzp1.on('payment.failed', function (response) {
+        alert('Payment Failed: ' + response.error.description);
+      });
+      rzp1.open();
+    })
+    .catch(function (error) {
+      console.error(error);
+      alert('Could not initiate payment');
+    });
+};
