@@ -29,10 +29,12 @@ app.use(cookieParser());
 const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173', "https://pizza-frontend.onrender.com"]
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("Incoming origin:", origin);
+    console.log("Allowed origins:", allowedOrigins);
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    }else{
-      callback(new Error('Not allowed by CORS'))
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true

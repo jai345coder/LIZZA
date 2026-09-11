@@ -1,5 +1,5 @@
 import express from "express";
-import { newRecipe, addItem, fetchMenu, itemOutotStocks ,  fetchItem, updateItem, deleteItem, isAvailable, filterItem } from "../controllers/inventory.controller.js";
+import { newRecipe, addItem, fetchMenu, itemOutotStocks, restockAllOutOfStock, restockViaEmailToken, fetchItem, updateItem, deleteItem, isAvailable, filterItem } from "../controllers/inventory.controller.js";
 import { adminOnlyMiddleware } from "../middlewares/adminOnly.middleware.js";
 import { userAuthentication } from "../middlewares/auth.middleware.js";
 
@@ -68,4 +68,20 @@ router.post("/admin/seed-item", userAuthentication, adminOnlyMiddleware, addItem
  */
 
 router.get("/admin/items/out-stock", userAuthentication , adminOnlyMiddleware , itemOutotStocks);
+
+/**
+ * POST /api/inventory/admin/restock-all
+ * @description Restock all out-of-stock items (sets stock to 50, marks available)
+ * @access Private (admin only)
+ */
+router.post("/admin/restock-all", userAuthentication, adminOnlyMiddleware, restockAllOutOfStock);
+
+/**
+ * GET /api/inventory/admin/restock-via-email?token=xxx
+ * @description Restock all items via a signed token link from the admin email.
+ *              No JWT auth needed — the token itself is the auth.
+ * @access Token-protected
+ */
+router.get("/admin/restock-via-email", restockViaEmailToken);
+
 export default router;

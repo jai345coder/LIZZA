@@ -1,4 +1,5 @@
 import ItemModel from "../models/Item.model.js";
+import jwt from 'jsonwebtoken';
 
 
 
@@ -208,25 +209,120 @@ return res.status(200).json({
 }
 
 
+/**
+ * @description Restock all out-of-stock items (stock < 5 or unavailable).
+ *              Sets stock back to 50 and marks them as available.
+ * @POST /api/inventory/admin/restock-all
+ * @access Private (admin only)
+ */
+export async function restockAllOutOfStock(req, res) {
+      try {
+            const result = await ItemModel.updateMany(
+                  { $or: [{ stock: { $lt: 5 } }, { isAvailable: false }] },
+                  { $set: { stock: 50, isAvailable: true } }
+            );
+
+            if (result.modifiedCount === 0) {
+                  return res.status(200).json({
+                        message: "All items are already in stock ✅",
+                        modifiedCount: 0
+                  });
+            }
+
+            return res.status(200).json({
+                  message: `Successfully restocked ${result.modifiedCount} item(s) 📦`,
+                  modifiedCount: result.modifiedCount
+            });
+      } catch (err) {
+            console.error("Restock error:", err);
+            return res.status(500).json({
+                  message: "Failed to restock items",
+                  error: err.message
+            });
+      }
+}
 
 
+/**
+ * @description Restock all out-of-stock items via a signed token from the email link.
+ *              This allows the admin to restock by simply clicking the button in the email.
+ * @GET /api/inventory/admin/restock-via-email?token=xxx
+ * @access Token-protected (no JWT auth needed — token is generated per email)
+ */
+export async function restockViaEmailToken(req, res) {
+      try {
+            const { token } = req.query;
+
+            if (!token) {
+                  return res.status(400).send(buildRestockHtmlPage('❌ Error', 'Missing restock token.', false));
+            }
+
+            // Verify the restock token
+            let decoded;
+            try {
+                  decoded = jwt.verify(token, process.env.JWT_SECRET);
+            } catch (err) {
+                  return res.status(401).send(buildRestockHtmlPage('❌ Token Expired', 'This restock link has expired or is invalid. Please wait for the next stock alert email.', false));
+            }
+
+            if (decoded.purpose !== 'restock-all') {
+                  return res.status(403).send(buildRestockHtmlPage('❌ Invalid Token', 'This token is not valid for restocking.', false));
+            }
+
+            // Perform the restock
+            const result = await ItemModel.updateMany(
+                  { $or: [{ stock: { $lt: 5 } }, { isAvailable: false }] },
+                  { $set: { stock: 50, isAvailable: true } }
+            );
+
+            if (result.modifiedCount === 0) {
+                  return res.send(buildRestockHtmlPage('✅ Already In Stock', 'All items are already sufficiently stocked. No changes were made.', true));
+            }
+
+            return res.send(buildRestockHtmlPage(
+                  '✅ Restocked Successfully!',
+                  `${result.modifiedCount} item(s) have been restocked to 50 units and marked as available.`,
+                  true
+            ));
+      } catch (err) {
+            console.error('Restock via email error:', err);
+            return res.status(500).send(buildRestockHtmlPage('❌ Server Error', 'Something went wrong. Please try again later.', false));
+      }
+}
 
 
+/**
+ * Helper to build a styled HTML response page for the email restock action
+ */
+function buildRestockHtmlPage(title, message, success) {
+      const color = success ? '#16a34a' : '#dc2626';
+      const bgGradient = success
+            ? 'linear-gradient(135deg, #16a34a, #15803d)'
+            : 'linear-gradient(135deg, #dc2626, #b91c1c)';
+      const emoji = success ? '📦' : '⚠️';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      return `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${title} — Pizza App</title>
+      </head>
+      <body style="margin: 0; padding: 40px 20px; font-family: 'Segoe UI', Arial, sans-serif; background: #f3f4f6; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <div style="max-width: 480px; width: 100%; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.1); text-align: center;">
+                  <div style="background: ${bgGradient}; padding: 40px 24px;">
+                        <div style="font-size: 48px; margin-bottom: 12px;">${emoji}</div>
+                        <h1 style="color: #fff; margin: 0; font-size: 22px; font-weight: 700;">${title}</h1>
+                  </div>
+                  <div style="padding: 32px 24px;">
+                        <p style="color: #555; font-size: 15px; line-height: 1.6; margin: 0;">${message}</p>
+                  </div>
+                  <div style="background: #f9fafb; padding: 16px 24px; border-top: 1px solid #eee;">
+                        <p style="color: #9ca3af; font-size: 12px; margin: 0;">Pizza App Inventory System</p>
+                  </div>
+            </div>
+      </body>
+      </html>
+      `;
+}
