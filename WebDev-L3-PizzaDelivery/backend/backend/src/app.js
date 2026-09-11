@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
  
-const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173', "https://pizza-frontend.onrender.com"]
+const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173', "https://pizza-frontend.onrender.com", "https://lizza.onrender.com"]
 app.use(cors({
   origin: function (origin, callback) {
     console.log("Incoming origin:", origin);

@@ -1,17 +1,28 @@
-import 'dotenv/config';
- // This loads environment variables instantly
- 
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// Load .env from the backend root (one level up from backend/backend/)
+dotenv.config({ path: resolve(__dirname, '../.env') });
+
 import Razorpay from "razorpay";
 
-console.log("--- SYSTEM ENVIRONMENT CHECK ---");
-console.log("Raw Key ID Variable:", "[NOT ALLOWED]");
-console.log("Is Secret Variable Present?:", !!process.env.RAZORPAY_KEY_SECRET);
-console.log("--------------------------------");
-
-const RazorpayInstance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// Lazily created so env vars are guaranteed to be loaded
+let _razorpayInstance = null;
+function getRazorpayInstance() {
+  if (!_razorpayInstance) {
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+      throw new Error('Razorpay credentials not found in environment variables');
+    }
+    _razorpayInstance = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+  }
+  return _razorpayInstance;
+}
 
 
 export const createOrder = async ({ amount, currency = "INR", receipt = null }) => {
@@ -20,11 +31,7 @@ export const createOrder = async ({ amount, currency = "INR", receipt = null }) 
     currency,
     ...(receipt && { receipt })
   };
-console.log("--- SYSTEM ENVIRONMENT CHECK ---");
-console.log("Raw Key ID Variable:", process.env.RAZORPAY_KEY_ID);
-console.log("Is Secret Variable Present?:", !!process.env.RAZORPAY_KEY_SECRET);
-console.log("--------------------------------");
-  const order = await RazorpayInstance.orders.create(options);
+  const order = await getRazorpayInstance().orders.create(options);
   return order;
 };
 
