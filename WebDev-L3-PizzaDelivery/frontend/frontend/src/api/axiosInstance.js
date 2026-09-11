@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+// 1. Check if the environment variable exists. 
+// 2. If it doesn't, automatically pick the right URL based on mode.
+const baseURL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.DEV ? 'http://localhost:3000/api' : 'https://lizza.onrender.com/api');
+
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000/api' : 'https://lizza.onrender.com/api'),
+  baseURL: baseURL,
   withCredentials: true,
 });
 
