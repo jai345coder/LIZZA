@@ -12,7 +12,7 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 import connectDB from "./config/database.js";
 import router from "./routers/auth.router.js";
-//import cors from "cors";
+import cors from "cors";
 import express from "express";
 import inventoryRouter from "./routers/inventory.router.js";
 import addressRouter from "./routers/address.router.js";
