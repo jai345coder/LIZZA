@@ -1,8 +1,7 @@
 
 
 
-import dotenv from "dotenv";
-dotenv.config();
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dns from "dns";
@@ -27,18 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
  
 const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173', "https://pizza-frontend.onrender.com", "https://lizza.onrender.com"]
-app.use(cors({
-  origin: function (origin, callback) {
-    console.log("Incoming origin:", origin);
-    console.log("Allowed origins:", allowedOrigins);
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
+app.use(cors({ origin: 'https://frontend-xi-one-68.vercel.app' }));
 connectDB()
 app.use("/api/auth", router);
 app.use("/api/inventory",  inventoryRouter);

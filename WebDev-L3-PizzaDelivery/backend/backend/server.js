@@ -1,4 +1,13 @@
 import dotenv from "dotenv";
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env from backend/ (one level up from backend/backend/)
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 import http from 'http';
 import connectDB from "./src/config/database.js";
 import app from "./src/app.js";
@@ -11,7 +20,6 @@ const server = http.createServer(app);
 
 // Initialize WebSockets
 initSocket(server);
-dotenv.config();
 connectDB().then(() => {
     console.log("||===================================================||");
     server.listen(3000, () => {
