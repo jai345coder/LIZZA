@@ -215,23 +215,24 @@ export default function LandingPage({ onNavigate }) {
         </div>
 
         {/* Action Buttons & Theme Toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {/* Light / Dark Mode Toggle Button */}
           <button
             onClick={toggleTheme}
-            className={`px-3 py-2 font-heading font-extrabold text-xs uppercase rounded-xl neo-border cursor-pointer transition-all flex items-center gap-1.5 ${
+            className={`px-2 py-1.5 sm:px-3 sm:py-2 font-heading font-extrabold text-[10px] sm:text-xs uppercase rounded-xl neo-border cursor-pointer transition-all flex items-center gap-1 sm:gap-1.5 ${
               isDark
                 ? 'bg-[#1C1C1E] text-[#CCFF00] border-white/20 hover:border-[#CCFF00]'
                 : 'bg-white text-[#FF6B35] border-[#1E1E1E] hover:bg-gray-50'
             }`}
             title="Toggle Light/Dark Mode"
           >
-            {isDark ? '🌙 DARK' : '☀️ LIGHT'}
+            <span className="text-sm">{isDark ? '🌙' : '☀️'}</span>
+            <span className="hidden sm:inline">{isDark ? 'DARK' : 'LIGHT'}</span>
           </button>
 
           <button
             onClick={() => handleNav('login')}
-            className={`px-4 py-2 border-2 font-heading font-bold text-xs uppercase rounded-xl transition-all cursor-pointer ${
+            className={`px-2 py-1.5 sm:px-4 sm:py-2 border-2 font-heading font-bold text-[10px] sm:text-xs uppercase rounded-xl transition-all cursor-pointer whitespace-nowrap ${
               isDark
                 ? 'border-white text-white hover:bg-white hover:text-black'
                 : 'border-[#1E1E1E] text-[#1E1E1E] bg-white hover:bg-[#1E1E1E] hover:text-white'
@@ -241,7 +242,7 @@ export default function LandingPage({ onNavigate }) {
           </button>
           <button
             onClick={() => handleNav('summary')}
-            className={`px-4 py-2 font-heading font-black text-xs uppercase rounded-xl border-2 border-black neo-shadow-sm transition-transform cursor-pointer ${
+            className={`px-2 py-1.5 sm:px-4 sm:py-2 font-heading font-black text-[10px] sm:text-xs uppercase rounded-xl border-2 border-black neo-shadow-sm transition-transform cursor-pointer whitespace-nowrap ${
               isDark
                 ? 'bg-[#CCFF00] text-black hover:bg-[#b8e600]'
                 : 'bg-[#FF6B35] text-white hover:bg-[#ff5a22]'

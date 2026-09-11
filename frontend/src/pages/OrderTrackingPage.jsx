@@ -105,7 +105,7 @@ export default function OrderTrackingPage({ onNavigate }) {
 
         {/* Live Map Preview Mock */}
         <div className="bg-[#1E1E1E] neo-card p-6 text-white relative overflow-hidden min-h-64 flex flex-col justify-between">
-          <div className="flex items-center justify-between z-10">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-[#CCFF00] text-[#1E1E1E] rounded-2xl font-black text-2xl flex items-center justify-center neo-border">
                 🛵

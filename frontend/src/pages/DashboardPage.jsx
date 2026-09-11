@@ -1184,7 +1184,7 @@ export default function DashboardPage({ onNavigate, user }) {
                   : undefined
               }
               className={`${
-                boxPos ? 'shadow-2xl scale-[1.02]' : 'fixed bottom-6 right-4 sm:right-6 z-50 w-[310px] sm:w-[330px]'
+                boxPos ? 'shadow-2xl scale-[1.02]' : 'fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[330px]'
               } neo-card bg-white p-4 sm:p-5 space-y-3.5 shadow-2xl border-3 border-[#1E1E1E] transition-all`}
             >
               <div
@@ -1364,7 +1364,7 @@ export default function DashboardPage({ onNavigate, user }) {
             </div>
 
             {/* 4-COLUMN RESPONSIVE TILE GRID */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {fullWidthGridItems.map((item) => (
                 <div
                   key={item.id}

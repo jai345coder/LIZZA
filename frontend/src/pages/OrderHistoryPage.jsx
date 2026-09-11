@@ -152,7 +152,7 @@ export default function OrderHistoryPage({ onNavigate }) {
                     </div>
                     <ul className="space-y-2">
                       {ord.items?.map((item, idx) => (
-                        <li key={idx} className="bg-white neo-border p-3 rounded-xl flex items-center justify-between font-heading font-black text-lg sm:text-xl text-[#1E1E1E]">
+                        <li key={idx} className="bg-white neo-border p-3 rounded-xl flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 font-heading font-black text-sm sm:text-xl text-[#1E1E1E]">
                           <div className="flex items-center gap-2">
                             <span className="text-[#FF6B35]">🍕</span>
                             <span>{item.name || item.item?.name || 'Pizza Item'}</span>
@@ -174,14 +174,14 @@ export default function OrderHistoryPage({ onNavigate }) {
                       </span>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mt-3 sm:mt-0">
                       {isLive && (
                         <button
                           onClick={() => {
                             setCurrentOrder(ord);
                             if (onNavigate) onNavigate('track');
                           }}
-                          className="neo-btn py-2.5 px-4 bg-[#CCFF00] text-[#1E1E1E] font-heading font-black text-xs uppercase rounded-xl cursor-pointer"
+                          className="w-full sm:w-auto neo-btn py-2.5 px-4 bg-[#CCFF00] text-[#1E1E1E] font-heading font-black text-xs uppercase rounded-xl cursor-pointer"
                         >
                           Track Live 🛵
                         </button>
@@ -191,7 +191,7 @@ export default function OrderHistoryPage({ onNavigate }) {
                         <button
                           onClick={() => handleCancelOrder(ord._id)}
                           disabled={cancellingId === ord._id}
-                          className="neo-btn py-2.5 px-4 bg-red-500 text-white font-heading font-black text-xs uppercase rounded-xl cursor-pointer disabled:opacity-50"
+                          className="w-full sm:w-auto neo-btn py-2.5 px-4 bg-red-500 text-white font-heading font-black text-xs uppercase rounded-xl cursor-pointer disabled:opacity-50"
                         >
                           {cancellingId === ord._id ? 'CANCELING...' : 'Cancel Order ❌'}
                         </button>

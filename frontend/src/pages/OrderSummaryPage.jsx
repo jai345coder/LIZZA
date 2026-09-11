@@ -291,7 +291,7 @@ export default function OrderSummaryPage({ onNavigate }) {
                     onChange={(e) => setNewAddressForm({ ...newAddressForm, fullAddress: e.target.value })}
                     className="w-full neo-border rounded-xl px-3 py-2 bg-white text-xs font-bold"
                   />
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <input
                       type="text"
                       required
@@ -435,7 +435,7 @@ export default function OrderSummaryPage({ onNavigate }) {
               <button
                 onClick={handlePlaceOrderAndPay}
                 disabled={isProcessing}
-                className="w-full neo-btn py-4 px-6 bg-[#FF6B35] hover:bg-[#ff5a22] text-white font-heading font-black text-base uppercase tracking-widest rounded-2xl cursor-pointer text-center disabled:opacity-50"
+                className="w-full neo-btn py-4 px-2 sm:px-6 bg-[#FF6B35] hover:bg-[#ff5a22] text-white font-heading font-black text-[10px] sm:text-base uppercase tracking-widest rounded-2xl cursor-pointer text-center disabled:opacity-50"
               >
                 {isProcessing ? 'PROCESSING PAYMENT...' : 'PLACE ORDER & PAY (RAZORPAY) 💳'}
               </button>

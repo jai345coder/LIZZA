@@ -225,7 +225,7 @@ export default function UserProfilePage({ onNavigate }) {
                       onChange={(e) => setNewAddr({ ...newAddr, fullAddress: e.target.value })}
                       className="w-full neo-border rounded-xl px-3 py-2 text-xs font-medium bg-white mb-2"
                     />
-                    <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
                       <input
                         type="text"
                         required
@@ -271,7 +271,7 @@ export default function UserProfilePage({ onNavigate }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {addresses.map((addr) => (
                     <div key={addr._id} className="bg-[#FFF5F0] neo-border p-4 rounded-2xl space-y-2 relative">
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                         <h4 className="font-heading font-extrabold text-sm uppercase">{addr.city || 'Address'} HQ 🏠</h4>
                         {addr.isDefault ? (
                           <StickerBadge text="DEFAULT" variant="pink" size="sm" />

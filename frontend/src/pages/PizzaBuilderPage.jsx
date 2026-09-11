@@ -117,7 +117,7 @@ export default function PizzaBuilderPage({ onNavigate }) {
         </div>
 
         {/* 4-Step Flow Stepper Header */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           {steps.map((step) => {
             const isActive = activeStep === step.num;
             const isDone = activeStep > step.num;

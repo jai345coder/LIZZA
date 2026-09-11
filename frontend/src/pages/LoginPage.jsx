@@ -142,7 +142,7 @@ export default function LoginPage({ onLoginSuccess, onNavigate }) {
 
         <button
           onClick={() => onNavigate && onNavigate('menu')}
-          className="neo-btn px-4 py-2 bg-white text-[#1E1E1E] font-heading font-bold text-xs uppercase rounded-xl cursor-pointer"
+          className="neo-btn px-2 py-1.5 sm:px-4 sm:py-2 bg-white text-[#1E1E1E] font-heading font-bold text-[10px] sm:text-xs uppercase rounded-xl cursor-pointer whitespace-nowrap"
         >
           Browse Menu →
         </button>
@@ -274,7 +274,7 @@ export default function LoginPage({ onLoginSuccess, onNavigate }) {
             )}
 
             {!isRegister && (
-              <div className="flex items-center justify-between text-xs font-bold">
+              <div className="flex items-center justify-between flex-wrap gap-2 text-xs font-bold">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" className="w-4 h-4 rounded border-[#1E1E1E] text-[#FF6B35] focus:ring-0" defaultChecked />
                   <span>Remember me</span>
@@ -353,18 +353,18 @@ export default function LoginPage({ onLoginSuccess, onNavigate }) {
                 />
               </div>
 
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowForgotModal(false)}
-                  className="w-1/2 py-3 px-4 neo-border font-heading font-bold text-xs uppercase rounded-xl hover:bg-gray-100 cursor-pointer"
+                  className="w-full sm:w-1/2 py-3 px-4 neo-border font-heading font-bold text-xs uppercase rounded-xl hover:bg-gray-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={forgotSubmitting}
-                  className="w-1/2 neo-btn py-3 px-4 bg-[#FF6B35] text-white font-heading font-black text-xs uppercase tracking-wider rounded-xl hover:bg-[#ff5a22] cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-1/2 neo-btn py-3 px-4 bg-[#FF6B35] text-white font-heading font-black text-xs uppercase tracking-wider rounded-xl hover:bg-[#ff5a22] cursor-pointer disabled:opacity-50"
                 >
                   {forgotSubmitting ? 'SENDING...' : 'SEND LINK 🚀'}
                 </button>
