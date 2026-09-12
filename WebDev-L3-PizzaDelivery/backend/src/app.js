@@ -34,7 +34,6 @@ const allowedOrigins = [
   "https://lizza-iota.vercel.app",
   "https://lizza20.vercel.app" // added: your current production domain
 ];
-
 app.use(cors({
   origin: function (origin, callback) {
     // allow requests with no origin (like mobile apps or curl requests)
@@ -51,8 +50,9 @@ app.use(cors({
       return callback(null, true);
     }
 
-    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-    return callback(new Error(msg), false);
+    // reject cleanly (no thrown Error) so Express doesn't crash this into a 500
+    console.log('Rejected origin:', origin);
+    return callback(null, false);
   },
   credentials: true // Crucial for sending cookies/sessions
 }));
