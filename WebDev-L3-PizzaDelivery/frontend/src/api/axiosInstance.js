@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-// 1. Check if the environment variable exists. 
-// 2. If it doesn't, automatically pick the right raw domain based on mode.
-// const baseURL = import.meta.env.VITE_API_URL || 
-//   (import.meta.env.DEV ? 'http://localhost:3000/api' : 'https://lizza.onrender.com'); // 🟢 Fixed: Removed /api
+// 1. Get the base URL from Vite environment or use the hardcoded production fallback
+// 2. Ensure it strictly routes to your backend /api sub-routes
+const rawBaseURL = import.meta.env.VITE_API_URL || 'https://lizza.onrender.com';
+const baseURL = rawBaseURL.endsWith('/api') ? rawBaseURL : `${rawBaseURL}/api`;
 
-const baseURL = process.env.VITE_API_URL || 'https://lizza.onrender.com';
 const axiosInstance = axios.create({
   baseURL: baseURL,
   withCredentials: true,

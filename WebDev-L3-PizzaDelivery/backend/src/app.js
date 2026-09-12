@@ -33,11 +33,6 @@ const allowedOrigins = [
 ]
 // index.js
 
-// Create an array of allowed origins
-const allowedOrigins = [
-  'http://localhost:5173', // Your local Vite frontend
-  process.env.CLIENT_URL   // Automatically pulls your Vercel URL when deployed
-].filter(Boolean);          // Removes undefined values if CLIENT_URL isn't set yet
 
 app.use(cors({
   origin: function (origin, callback) {
