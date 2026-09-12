@@ -58,7 +58,7 @@ app.use(cors({
 }));
 
 // Explicitly catch and auto-approve browser preflight requests
-app.options('*', cors());
+
 
 connectDB()
 app.use("/api/auth", router);
