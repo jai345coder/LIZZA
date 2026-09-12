@@ -33,37 +33,24 @@ const allowedOrigins = [
 ]
 // index.js
 
+// Create an array of allowed origins
 const allowedOrigins = [
-  "https://lizza-iota.vercel.app",
-  "https://pizza-frontend.onrender.com",
-  "https://lizza.onrender.com"
-];
-
-// If CLIENT_URL exists, clean it up and add it dynamically
-if (process.env.CLIENT_URL) {
-  allowedOrigins.push(process.env.CLIENT_URL.trim());
-}
+  'http://localhost:5173', // Your local Vite frontend
+  process.env.CLIENT_URL   // Automatically pulls your Vercel URL when deployed
+].filter(Boolean);          // Removes undefined values if CLIENT_URL isn't set yet
 
 app.use(cors({
-  origin: (origin, callback) => {
-    // 1. Allow server-to-server or tools like Postman/cURL (no origin)
-    if (!origin) {
-      return callback(null, true);
-    }
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
     
-    const cleanOrigin = origin.trim();
-
-    // 2. Exact match against our trusted array OR check for vercel subdomains
-    if (allowedOrigins.includes(cleanOrigin) || cleanOrigin.endsWith(".vercel.app")) {
-      callback(null, true);
-    } else {
-      console.error(`❌ CORS Blocked: ${cleanOrigin}`);
-      callback(new Error('Not allowed by CORS'));
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
     }
+    return callback(null, true);
   },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+  credentials: true // Crucial for sending cookies/sessions
 }));
 
 // 🟢 CRUCIAL: Explicitly catch and auto-approve browser preflight requests
