@@ -181,13 +181,13 @@ export default function OrderSummaryPage({ onNavigate }) {
 
   return (
     <PageShell activeTab="summary" onNavigate={onNavigate}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
         
         {/* Page Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 neo-card">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 sm:p-5 neo-card">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h1 className="font-heading font-black text-3xl text-[#1E1E1E] uppercase tracking-tight">
+              <h1 className="font-heading font-black text-xl sm:text-3xl text-[#1E1E1E] uppercase tracking-tight">
                 ORDER SUMMARY 🛍️
               </h1>
               <StickerBadge text="CHECKOUT" variant="lime" rotate="left" size="sm" />
@@ -199,7 +199,7 @@ export default function OrderSummaryPage({ onNavigate }) {
 
           <button
             onClick={() => onNavigate && onNavigate('menu')}
-            className="neo-btn py-2 px-4 bg-white text-[#1E1E1E] font-heading font-bold text-xs uppercase rounded-xl cursor-pointer"
+            className="neo-btn py-1.5 sm:py-2 px-3 sm:px-4 bg-white text-[#1E1E1E] font-heading font-bold text-xs uppercase rounded-xl cursor-pointer self-start sm:self-auto"
           >
             + Add More Slices
           </button>
@@ -217,8 +217,8 @@ export default function OrderSummaryPage({ onNavigate }) {
           <div className="lg:col-span-7 space-y-6">
             
             {/* Cart Items List */}
-            <div className="bg-white neo-card p-5 space-y-4">
-              <h3 className="font-heading font-black text-xl text-[#1E1E1E] uppercase">
+            <div className="bg-white neo-card p-3 sm:p-5 space-y-3 sm:space-y-4">
+              <h3 className="font-heading font-black text-base sm:text-xl text-[#1E1E1E] uppercase">
                 Your Selected Crusts ({cartItems.length})
               </h3>
               
@@ -227,34 +227,34 @@ export default function OrderSummaryPage({ onNavigate }) {
                   Your cart is empty! <button onClick={() => onNavigate('menu')} className="text-[#FF6B35] underline cursor-pointer">Browse Menu</button>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {cartItems.map((item, index) => (
                     <div
                       key={index}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-[#FFF5F0] neo-border rounded-2xl gap-3"
+                      className="flex flex-row items-center justify-between p-3 sm:p-4 bg-[#FFF5F0] neo-border rounded-2xl gap-2 sm:gap-3"
                     >
-                      <div>
-                        <h4 className="font-heading font-extrabold text-base text-[#1E1E1E] uppercase">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-heading font-extrabold text-sm sm:text-base text-[#1E1E1E] uppercase truncate">
                           {item.name}
                         </h4>
-                        <p className="text-xs font-bold text-gray-500">{item.size || 'Regular'}</p>
-                        <p className="text-sm font-extrabold text-[#FF6B35] mt-1">
+                        <p className="text-[10px] sm:text-xs font-bold text-gray-500">{item.size || 'Regular'}</p>
+                        <p className="text-xs sm:text-sm font-extrabold text-[#FF6B35] mt-0.5">
                           ${((item.price || item.unitPrice || 0) * item.quantity).toFixed(2)}
                         </p>
                       </div>
 
                       {/* Quantity Controls */}
-                      <div className="flex items-center gap-2 bg-white neo-border p-1 rounded-xl w-fit">
+                      <div className="flex items-center gap-1 sm:gap-2 bg-white neo-border p-1 rounded-xl w-fit shrink-0">
                         <button
                           onClick={() => updateQuantity(index, item.quantity - 1)}
-                          className="w-8 h-8 rounded-lg bg-gray-100 font-black text-sm flex items-center justify-center hover:bg-gray-200 cursor-pointer"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gray-100 font-black text-sm flex items-center justify-center hover:bg-gray-200 cursor-pointer"
                         >
                           -
                         </button>
-                        <span className="font-heading font-black text-sm px-2">{item.quantity}</span>
+                        <span className="font-heading font-black text-sm px-1 sm:px-2">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(index, item.quantity + 1)}
-                          className="w-8 h-8 rounded-lg bg-[#FF6B35] text-white font-black text-sm flex items-center justify-center hover:bg-[#ff5a22] cursor-pointer"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#FF6B35] text-white font-black text-sm flex items-center justify-center hover:bg-[#ff5a22] cursor-pointer"
                         >
                           +
                         </button>
@@ -266,15 +266,15 @@ export default function OrderSummaryPage({ onNavigate }) {
             </div>
 
             {/* Delivery Address & Note */}
-            <div className="bg-white neo-card p-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-heading font-black text-xl text-[#1E1E1E] uppercase">
+            <div className="bg-white neo-card p-3 sm:p-5 space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-heading font-black text-base sm:text-xl text-[#1E1E1E] uppercase">
                   Delivery Details 📍
                 </h3>
                 <button
                   type="button"
                   onClick={() => setShowAddAddress(!showAddAddress)}
-                  className="neo-btn py-1 px-3 bg-[#CCFF00] text-[#1E1E1E] font-heading font-extrabold text-xs uppercase rounded-xl cursor-pointer"
+                  className="neo-btn py-1 px-2 sm:px-3 bg-[#CCFF00] text-[#1E1E1E] font-heading font-extrabold text-xs uppercase rounded-xl cursor-pointer shrink-0"
                 >
                   {showAddAddress ? 'Cancel' : '+ New Address'}
                 </button>
@@ -369,10 +369,10 @@ export default function OrderSummaryPage({ onNavigate }) {
           </div>
 
           {/* Right Price Breakdown & Order Trigger (Cols 8-12) */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-4 sm:space-y-6 overflow-hidden">
             
             {/* Promo Code Input */}
-            <div className="bg-white neo-card p-5 space-y-3">
+            <div className="bg-white neo-card p-3 sm:p-5 space-y-3">
               <h4 className="font-heading font-extrabold text-sm uppercase text-[#1E1E1E]">
                 Have a Promo Code? 🏷️
               </h4>
@@ -382,11 +382,11 @@ export default function OrderSummaryPage({ onNavigate }) {
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                   placeholder="Try CHAOS25"
-                  className="flex-1 neo-border rounded-xl px-3 py-2.5 bg-[#FFF5F0] font-heading font-bold text-xs uppercase focus:outline-none"
+                  className="flex-1 min-w-0 neo-border rounded-xl px-3 py-2 sm:py-2.5 bg-[#FFF5F0] font-heading font-bold text-xs uppercase focus:outline-none"
                 />
                 <button
                   onClick={() => setPromoApplied(true)}
-                  className="neo-btn py-2.5 px-4 bg-[#CCFF00] text-[#1E1E1E] font-heading font-black text-xs uppercase rounded-xl cursor-pointer"
+                  className="neo-btn py-2 sm:py-2.5 px-3 sm:px-4 bg-[#CCFF00] text-[#1E1E1E] font-heading font-black text-xs uppercase rounded-xl cursor-pointer shrink-0"
                 >
                   Apply
                 </button>
@@ -400,12 +400,12 @@ export default function OrderSummaryPage({ onNavigate }) {
             </div>
 
             {/* Bill Receipt Card */}
-            <div className="bg-white neo-card p-5 space-y-4">
-              <h3 className="font-heading font-black text-xl text-[#1E1E1E] uppercase border-b-2 border-[#1E1E1E] pb-2">
+            <div className="bg-white neo-card p-3 sm:p-5 space-y-3 sm:space-y-4">
+              <h3 className="font-heading font-black text-base sm:text-xl text-[#1E1E1E] uppercase border-b-2 border-[#1E1E1E] pb-2">
                 Payment Breakdown
               </h3>
 
-              <div className="space-y-2 text-sm font-bold text-gray-700">
+              <div className="space-y-2 text-xs sm:text-sm font-bold text-gray-700">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span>${estimatedTotal.toFixed(2)}</span>
@@ -426,7 +426,7 @@ export default function OrderSummaryPage({ onNavigate }) {
                 </div>
               </div>
 
-              <div className="border-t-2.5 border-[#1E1E1E] pt-3 flex justify-between items-center font-heading font-black text-2xl text-[#1E1E1E]">
+              <div className="border-t-2.5 border-[#1E1E1E] pt-3 flex justify-between items-center font-heading font-black text-xl sm:text-2xl text-[#1E1E1E]">
                 <span>TOTAL</span>
                 <span className="text-[#FF6B35]">${grandTotal.toFixed(2)}</span>
               </div>
@@ -435,9 +435,9 @@ export default function OrderSummaryPage({ onNavigate }) {
               <button
                 onClick={handlePlaceOrderAndPay}
                 disabled={isProcessing}
-                className="w-full neo-btn py-4 px-2 sm:px-6 bg-[#FF6B35] hover:bg-[#ff5a22] text-white font-heading font-black text-[10px] sm:text-base uppercase tracking-widest rounded-2xl cursor-pointer text-center disabled:opacity-50"
+                className="w-full neo-btn py-3 sm:py-4 px-2 sm:px-6 bg-[#FF6B35] hover:bg-[#ff5a22] text-white font-heading font-black text-xs sm:text-base uppercase tracking-widest rounded-2xl cursor-pointer text-center disabled:opacity-50"
               >
-                {isProcessing ? 'PROCESSING PAYMENT...' : 'PLACE ORDER & PAY (RAZORPAY) 💳'}
+                {isProcessing ? 'PROCESSING...' : 'PLACE ORDER & PAY 💳'}
               </button>
             </div>
 

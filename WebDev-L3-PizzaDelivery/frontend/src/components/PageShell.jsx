@@ -34,7 +34,7 @@ export default function PageShell({
       )}
 
       {/* Main Content Area */}
-      <main className={`flex-1 w-full pb-20 lg:pb-8 ${className}`}>
+      <main className={`flex-1 w-full pb-28 lg:pb-8 ${className}`}>
         {children}
       </main>
 

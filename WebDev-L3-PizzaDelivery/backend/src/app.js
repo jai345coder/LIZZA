@@ -31,7 +31,6 @@ const allowedOrigins = [
   (process.env.CLIENT_URL || 'http://localhost:5173').trim(),
   "https://pizza-frontend.onrender.com",
   "https://lizza.onrender.com",
-  "https://lizza-iota.vercel.app",
   "https://lizza20.vercel.app" // added: your current production domain
 ];
 app.use(cors({
