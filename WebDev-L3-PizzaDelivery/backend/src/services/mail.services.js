@@ -1,30 +1,29 @@
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// .env is at backend/.env, three levels up from backend/src/services/
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
-import nodemailer from 'nodemailer';
-import jwt from 'jsonwebtoken';
+// 1. Load .env from backend/.env (two directories up from src/services/)
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+dotenv.config(); // fallback to current working directory if already in backend/
 
+import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
+
+// 2. Configure mail transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_HOST_PASSWORD
-  }
+    pass: process.env.EMAIL_HOST_PASSWORD,
+  },
 });
 
 // Verify the connection configuration
-/**
- * @transporter is used to transfer mail request to @smtp_Servers which are 
- * responsible for emails sent to the user's mail feed, using @transporter 
- * as the bridge between the @web_Server and the @smtp_server
- */
-transporter.verify()
+transporter
+  .verify()
   .then(() => {
     console.log("Email transport is ready to send emails📬");
   })
@@ -33,12 +32,8 @@ transporter.verify()
     console.log(err);
   });
 
+// ... rest of your export const functions can stay exactly the same!
 
-
-
-
-
-  
 /**
  * @sendVerificationEmail  this function is used to send verification email to the user
  * @param {string} email - The email of the user to send the verification email to
@@ -58,7 +53,7 @@ export const sendVerificationEmail = async (email, token) => {
         <p>Click the link below to verify your account:</p>
         <a href="${verifyUrl}">Verify Email</a>
         <p>This link expires in 1 hour.</p>
-      `
+      `,
     });
 
     console.log("verifyUrl: ", verifyUrl);
@@ -68,39 +63,44 @@ export const sendVerificationEmail = async (email, token) => {
   }
 };
 
-
 /**
  * outofStockReminderEmail for @Adminisrator
  * @param {string} email- email address of the admin
  * @param {string} verification token
  */
 
-export const outOfStock_Reminder_Email = async (email , items)=>{
-  try{
-    const serverUrl = process.env.SERVER_URL || 'http://localhost:3000';
+export const outOfStock_Reminder_Email = async (email, items) => {
+  try {
+    const serverUrl = process.env.SERVER_URL || "http://localhost:3000";
 
     // Generate a signed restock token (expires in 24 hours)
     const restockToken = jwt.sign(
-      { purpose: 'restock-all' },
+      { purpose: "restock-all" },
       process.env.JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn: "24h" },
     );
     const restockUrl = `${serverUrl}/api/inventory/admin/restock-via-email?token=${restockToken}`;
 
     // items is a comma-separated string of item names
-    const itemNames = items.split(',').map(name => name.trim()).filter(Boolean);
+    const itemNames = items
+      .split(",")
+      .map((name) => name.trim())
+      .filter(Boolean);
 
-    const itemRows = itemNames.map(name =>
-      `<tr>
+    const itemRows = itemNames
+      .map(
+        (name) =>
+          `<tr>
         <td style="padding: 10px 16px; border-bottom: 1px solid #eee; color: #333;">${name}</td>
         <td style="padding: 10px 16px; border-bottom: 1px solid #eee; text-align: center;">
           <span style="background: #fee2e2; color: #dc2626; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">Low / Out</span>
         </td>
-      </tr>`
-    ).join('');
+      </tr>`,
+      )
+      .join("");
 
     await transporter.sendMail({
-       from: `"Pizza App" <${process.env.EMAIL_USER}>`,
+      from: `"Pizza App" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "⚠️ ITEM SUPPLY OUT OF STOCK — Action Required",
       html: `
@@ -146,22 +146,14 @@ export const outOfStock_Reminder_Email = async (email , items)=>{
             <p style="color: #9ca3af; font-size: 12px; margin: 0;">Pizza App Inventory System • Automated Alert</p>
           </div>
         </div>
-      `
-    })
+      `,
+    });
 
-    console.log(`✅ Out-of-stock reminder email sent to ${email}`);
-  }catch(err){
+    console.log(`✅ Out-of-stock reminder email sent to ${email} `);
+  } catch (err) {
     console.log("ERROR ⚠️ : ", err.message);
   }
-}
-
-
-
-
-
-
-
-
+};
 
 /**
  * @emailToResetPassword This function is used to send password reset email to the user
@@ -170,27 +162,27 @@ export const outOfStock_Reminder_Email = async (email , items)=>{
  * @returns {Promise<void>}
  */
 
+export const emailToResetPassword = async (email, token) => {
+  /**
+   * @resetUrl is used to store the reset password url using env variable CLIENT_URL
+   * @token to verify user
+   * @CLIENT_URL : base url
+   */
+  const clientUrl =
+    process.env.CLIENT_URL && !process.env.CLIENT_URL.includes("3000")
+      ? process.env.CLIENT_URL
+      : "http://localhost:5173";
+  const resetUrl = `${clientUrl}/reset-password/${token}`;
 
-export const emailToResetPassword = async (email , token)=>{
-    /**
-     * @resetUrl is used to store the reset password url using env variable CLIENT_URL
-     * @token to verify user
-     * @CLIENT_URL : base url
-     */
-    const clientUrl = process.env.CLIENT_URL && !process.env.CLIENT_URL.includes('3000') 
-        ? process.env.CLIENT_URL 
-        : 'http://localhost:5173';
-    const resetUrl = `${clientUrl}/reset-password/${token}`;
-
-    await transporter.sendMail({
-        from:`Pizza App <${process.env.EMAIL_USER}`,
-        to:email,
-        subject:`Reset Your Password`,
-        html:`
+  await transporter.sendMail({
+    from: `Pizza App <${process.env.EMAIL_USER}`,
+    to: email,
+    subject: `Reset Your Password`,
+    html: `
             <h2>Reset Password</h2>
             <p>Click the link below to reset your password:</p>
             <a href=${resetUrl}>Reset Password</a>
             <p>This link expires in 1 hour.</p>
-        `
-    });
+        `,
+  });
 };

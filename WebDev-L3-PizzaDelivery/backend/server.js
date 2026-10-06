@@ -5,8 +5,9 @@ import path from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load .env from backend/ (one level up from backend/backend/)
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+// Load .env from backend directory
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config();
 
 import http from 'http';
 import connectDB from "./src/config/database.js";
