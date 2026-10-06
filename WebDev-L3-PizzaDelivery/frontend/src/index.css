@@ -54,6 +54,10 @@ body.dark, html.dark, .dark {
 }
 
 @layer base {
+  html {
+    overflow-x: hidden;
+  }
+
   html, body {
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-base);

@@ -793,24 +793,24 @@ export default function DashboardPage({ onNavigate, user }) {
       <div className="max-w-[1560px] mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
 
         {/* ================= STICKY CATEGORY SECTION DIRECTLY BELOW NAV WITH SEARCH ================= */}
-        <div className="sticky top-[65px] z-30 bg-[#FFF5F0]/95 backdrop-blur-md py-3 px-3 sm:px-6 mb-6 border-b-3 border-[#1E1E1E] shadow-md flex items-center justify-between gap-3 overflow-x-auto no-scrollbar rounded-2xl neo-border">
-          <div className="flex items-center gap-2.5 px-1 shrink-0">
+        <div className="sticky top-[65px] z-30 bg-[#FFF5F0]/95 backdrop-blur-md py-2 sm:py-3 px-2 sm:px-6 mb-4 sm:mb-6 border-b-3 border-[#1E1E1E] shadow-md flex items-center justify-between gap-2 sm:gap-3 overflow-x-auto no-scrollbar rounded-2xl neo-border">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 px-0.5 shrink-0">
             <button
               onClick={() => setLeftDrawerOpen(true)}
-              className="neo-btn px-3 py-2 bg-[#FF6B35] text-white font-heading font-black text-xs uppercase tracking-wider rounded-xl flex items-center gap-1.5 shrink-0 cursor-pointer"
+              className="neo-btn px-2.5 sm:px-3 py-2.5 bg-[#FF6B35] text-white font-heading font-black text-xs uppercase tracking-wider rounded-xl flex items-center gap-1 sm:gap-1.5 shrink-0 cursor-pointer min-h-[40px]"
             >
               <span>⚡ MENU</span>
             </button>
 
             {/* Integrated Search Input Box */}
             <div className="relative flex items-center shrink-0">
-              <span className="absolute left-3 text-xs pointer-events-none">🔍</span>
+              <span className="absolute left-2.5 text-xs pointer-events-none">🔍</span>
               <input
                 type="text"
-                placeholder="Search pizzas..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="neo-border bg-white pl-8 pr-7 py-2 rounded-xl text-xs font-heading font-extrabold text-[#1E1E1E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B35] w-36 sm:w-52 transition-all shadow-inner"
+                className="neo-border bg-white pl-7 pr-6 py-2 rounded-xl text-xs font-heading font-extrabold text-[#1E1E1E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B35] w-24 sm:w-52 transition-all shadow-inner"
               />
               {searchQuery && (
                 <button
@@ -827,13 +827,13 @@ export default function DashboardPage({ onNavigate, user }) {
               <button
                 key={cat.id}
                 onClick={() => scrollToSection(cat.id)}
-                className={`neo-btn px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs uppercase tracking-wider whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                className={`neo-btn px-2.5 sm:px-3.5 py-2.5 rounded-xl font-heading font-extrabold text-xs uppercase tracking-wider whitespace-nowrap shrink-0 transition-all cursor-pointer min-h-[40px] ${
                   activeCategory === cat.id
                     ? 'bg-[#CCFF00] text-[#1E1E1E] scale-105 neo-border shadow-sm'
                     : 'bg-white text-[#1E1E1E] hover:bg-gray-100 neo-border'
                 }`}
               >
-                <span>{cat.icon}</span>
+                <span className="hidden sm:inline">{cat.icon} </span>
                 <span>{cat.label}</span>
               </button>
             ))}
@@ -844,10 +844,10 @@ export default function DashboardPage({ onNavigate, user }) {
               setCartDrawerOpen(true);
               setIsBoxOpen((prev) => !prev);
             }}
-            className="neo-btn px-3.5 py-2 bg-[#FF2E93] text-white font-heading font-black text-xs uppercase rounded-xl flex items-center gap-1.5 shrink-0 cursor-pointer"
+            className="neo-btn px-2.5 sm:px-3.5 py-2.5 bg-[#FF2E93] text-white font-heading font-black text-xs uppercase rounded-xl flex items-center gap-1 sm:gap-1.5 shrink-0 cursor-pointer min-h-[40px]"
           >
-            <span>🛍️ YOUR BOX</span>
-            <span className="bg-white/20 px-2 py-0.5 rounded-lg text-white font-black">${subtotal.toFixed(2)}</span>
+            <span>🛍️ <span className="hidden sm:inline">YOUR </span>BOX</span>
+            <span className="bg-white/20 px-1.5 sm:px-2 py-0.5 rounded-lg text-white font-black">${subtotal.toFixed(2)}</span>
           </button>
         </div>
         
@@ -1159,7 +1159,7 @@ export default function DashboardPage({ onNavigate, user }) {
           {!isBoxOpen ? (
             <button
               onClick={() => setIsBoxOpen(true)}
-              className="fixed bottom-6 right-4 sm:right-6 z-50 neo-btn bg-[#FF6B35] text-white px-4 py-3 rounded-2xl flex items-center gap-2.5 shadow-2xl border-3 border-[#1E1E1E] cursor-pointer hover:scale-105 active:scale-95 transition-all"
+              className="fixed bottom-24 lg:bottom-6 right-4 sm:right-6 z-50 neo-btn bg-[#FF6B35] text-white px-4 py-3 rounded-2xl flex items-center gap-2.5 shadow-2xl border-3 border-[#1E1E1E] cursor-pointer hover:scale-105 active:scale-95 transition-all"
               title="Click to open Your Box"
             >
               <span className="text-xl">🛍️</span>
@@ -1184,7 +1184,7 @@ export default function DashboardPage({ onNavigate, user }) {
                   : undefined
               }
               className={`${
-                boxPos ? 'shadow-2xl scale-[1.02]' : 'fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[330px]'
+                boxPos ? 'shadow-2xl scale-[1.02]' : 'fixed bottom-24 lg:bottom-6 right-2 sm:right-6 z-50 w-[calc(100vw-16px)] sm:w-[330px] max-h-[calc(100dvh-120px)] overflow-y-auto'
               } neo-card bg-white p-4 sm:p-5 space-y-3.5 shadow-2xl border-3 border-[#1E1E1E] transition-all`}
             >
               <div
@@ -1236,7 +1236,7 @@ export default function DashboardPage({ onNavigate, user }) {
               </div>
 
               {/* Cart Item List */}
-              <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-40 sm:max-h-60 overflow-y-auto pr-1">
                 {cartItems.length === 0 ? (
                   <div className="text-center py-6 text-gray-400 space-y-1.5">
                     <span className="text-2xl block">📦</span>
@@ -1344,7 +1344,7 @@ export default function DashboardPage({ onNavigate, user }) {
         {/* ================= 2. FULL-WIDTH 4-COLUMN CHAOS CATEGORY GRID SECTION ================= */}
         <section
           id="chaos-grid"
-          className="w-full relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen px-4 sm:px-8 lg:px-12 py-10 sm:py-12 bg-[#FFF0E8] border-y-3 border-[#1E1E1E] my-12 scroll-mt-24 shadow-inner"
+          className="w-full sm:relative sm:left-1/2 sm:right-1/2 sm:-ml-[50vw] sm:-mr-[50vw] sm:w-screen overflow-hidden px-3 sm:px-8 lg:px-12 py-8 sm:py-12 bg-[#FFF0E8] border-y-3 border-[#1E1E1E] my-8 sm:my-12 scroll-mt-24 shadow-inner"
         >
           <div className="max-w-[1560px] mx-auto space-y-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b-3 border-[#1E1E1E] pb-4">
