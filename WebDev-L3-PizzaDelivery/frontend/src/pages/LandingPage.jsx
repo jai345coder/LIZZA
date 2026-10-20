@@ -676,7 +676,7 @@ export default function LandingPage({ onNavigate }) {
                   labStep === 2
                     ? isDark
                       ? 'bg-[#CCFF00] text-black border-black'
-                      : 'bg-[#CCFF00] text-black border-black'
+                      : 'bg-[#FF6B35] text-white border-black'
                     : isDark
                     ? 'bg-[#18181A] text-gray-300 border-white/20'
                     : 'bg-white text-[#1E1E1E] border-[#1E1E1E]'

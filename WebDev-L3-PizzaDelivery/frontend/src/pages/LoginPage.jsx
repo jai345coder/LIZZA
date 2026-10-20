@@ -3,6 +3,7 @@ import StickerBadge from '../components/StickerBadge.jsx';
 import RandomStickers from '../components/RandomStickers.jsx';
 import PizzaLogoIcon from '../components/PizzaLogoIcon.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import authService from '../services/authService.js';
 
 /**
  * Page 1: Login / Register Page
@@ -48,24 +49,15 @@ export default function LoginPage({ onLoginSuccess, onNavigate }) {
     setForgotSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: forgotEmail }),
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send reset email');
-      }
+      const data = await authService.forgotPassword(forgotEmail);
 
       setForgotMsg({
-        text: '🎉 Password reset email sent! Check your inbox for the link.',
+        text: data?.message || '🎉 Password reset email sent! Check your inbox for the link.',
         isError: false,
       });
     } catch (err) {
       setForgotMsg({
-        text: err.message || 'Error requesting password reset.',
+        text: err.response?.data?.message || err.message || 'Error requesting password reset.',
         isError: true,
       });
     } finally {

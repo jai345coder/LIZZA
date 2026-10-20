@@ -174,15 +174,21 @@ export const emailToResetPassword = async (email, token) => {
       : "http://localhost:5173";
   const resetUrl = `${clientUrl}/reset-password/${token}`;
 
-  await transporter.sendMail({
-    from: `Pizza App <${process.env.EMAIL_USER}`,
-    to: email,
-    subject: `Reset Your Password`,
-    html: `
-            <h2>Reset Password</h2>
-            <p>Click the link below to reset your password:</p>
-            <a href=${resetUrl}>Reset Password</a>
-            <p>This link expires in 1 hour.</p>
-        `,
-  });
+  try {
+    await transporter.sendMail({
+      from: `"Pizza App" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `Reset Your Password`,
+      html: `
+              <h2>Reset Password</h2>
+              <p>Click the link below to reset your password:</p>
+              <a href="${resetUrl}">Reset Password</a>
+              <p>This link expires in 1 hour.</p>
+          `,
+    });
+    console.log(`✅ Password reset email sent successfully to ${email}`);
+  } catch (err) {
+    console.error("ERROR ⚠️ sending reset password email: ", err);
+    throw err;
+  }
 };

@@ -190,41 +190,45 @@ export async function login(req, res) {
 
 export const forgotPassword = async (req, res) => {
     try {
-        const { email } = req.body;//user not able to login so he need to send an email where to send the reset pass link
-        const userExist = await userModel.findOne({ email });
-        if (!userExist) {
-            return res.status(404).json({ message: "If that email is registered, a reset link has been sent" })
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
         }
-        /**
-         * @resetToken : we need to generate a random token for the user to reset the password
-         * @resetTokenExpire : we need to generate a random token for the user to reset the password
-         */
-        console.log(userExist);
+
+        const cleanEmail = email.trim().toLowerCase();
+        const userExist = await userModel.findOne({
+            email: { $regex: new RegExp(`^${cleanEmail}$`, 'i') }
+        });
+
+        if (!userExist) {
+            return res.status(200).json({ message: "If that email is registered, a reset link has been sent" });
+        }
+
+        console.log("Forgot password requested for user:", userExist.email);
 
         const generateToken = crypto.randomBytes(32).toString("hex");
         const generateTokenExpire = new Date(Date.now() + 60 * 60 * 1000);
-        //send email and token to function to send a mail to user to reset password
-        await emailToResetPassword(email, generateToken);
-        //updata user model with token and expiry date
-        /**
-         * find user with @email and update @resetToken and @resetTokenExpires
-         */
+
+        // Send email with reset token
+        await emailToResetPassword(userExist.email, generateToken);
+
+        // Update user model with token and expiry date
         await userModel.updateOne({
-            email
+            _id: userExist._id
         }, {
             $set: {
                 resetToken: generateToken,
                 resetTokenExpires: generateTokenExpire
             }
-        })
-        res.status(200).json({ message: "Password reset email sent successfully" })
+        });
+
+        return res.status(200).json({ message: "Password reset email sent successfully" });
 
     } catch (err) {
-        console.log("ERROR: ", err);
-        return res.status(500).json({ message: "Internal server error" })
+        console.log("ERROR in forgotPassword: ", err);
+        return res.status(500).json({ message: "Internal server error" });
     }
-
-}
+};
 
 
 /**

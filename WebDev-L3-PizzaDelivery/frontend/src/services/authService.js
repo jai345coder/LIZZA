@@ -23,7 +23,13 @@ export const authService = {
   },
 
   async forgotPassword(email) {
+    console.log("reset password initialed");
     const response = await axiosInstance.post('/auth/forgot-password', { email });
+    return response.data;
+  },
+
+  async resetPassword({ token, newPassword }) {
+    const response = await axiosInstance.post(`/auth/reset-password/${token}`, { newPassword });
     return response.data;
   },
 

@@ -15,13 +15,20 @@ import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 
 export default function App() {
-  const [resetToken, setResetToken] = useState('');
-  const [activeTab, setActiveTab] = useState(() => {
-    if (typeof window !== 'undefined' && window.location.pathname.includes('/reset-password/')) {
-      const parts = window.location.pathname.split('/reset-password/');
-      if (parts[1]) {
-        return 'reset-password';
+  const [resetToken, setResetToken] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname.includes('/reset-password/')) {
+        const parts = window.location.pathname.split('/reset-password/');
+        if (parts[1]) return parts[1].split('?')[0];
       }
+      const queryToken = new URLSearchParams(window.location.search).get('token');
+      if (queryToken) return queryToken;
+    }
+    return '';
+  });
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined' && (window.location.pathname.includes('/reset-password/') || new URLSearchParams(window.location.search).has('token'))) {
+      return 'reset-password';
     }
     return 'landing';
   });
@@ -67,6 +74,7 @@ export default function App() {
         activeTab={activeTab}
         user={user}
         isAdmin={isAdmin}
+        token={resetToken}
       />
     </div>
   );

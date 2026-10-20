@@ -16,8 +16,8 @@
   --color-text-main: #1E1E1E;
   --color-text-muted: #666666;
   --color-border: #1E1E1E;
-  --color-green-bg: #CCFF00;
-  --color-green-text: #1E1E1E;
+  --color-green-bg: #FF6B35;
+  --color-green-text: #FFFFFF;
   --color-success-bg: #DCFCE7;
   --color-success-text: #15803D;
   --neo-shadow-color: #1E1E1E;
@@ -125,6 +125,81 @@ body.dark, html.dark, .dark {
 .neo-badge {
   border: 2px solid var(--color-border);
   box-shadow: 2px 2px 0px var(--neo-shadow-color);
+}
+
+/* ========================================================= */
+/* LIGHT THEME: Pure Neubrutalist Orange Accents             */
+/* Restores the iconic all-orange theme in Light Mode,       */
+/* keeping Neon Lime & Hot Pink exclusive to Dark Theme.      */
+/* ========================================================= */
+body:not(.dark) .bg-\[\#CCFF00\],
+html:not(.dark) .bg-\[\#CCFF00\] {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+body:not(.dark) .text-\[\#CCFF00\],
+html:not(.dark) .text-\[\#CCFF00\] {
+  color: var(--color-primary) !important;
+}
+
+body:not(.dark) .border-\[\#CCFF00\],
+html:not(.dark) .border-\[\#CCFF00\] {
+  border-color: var(--color-primary) !important;
+}
+
+body:not(.dark) .hover\:bg-\[\#CCFF00\]:hover,
+html:not(.dark) .hover\:bg-\[\#CCFF00\]:hover {
+  background-color: var(--color-primary-hover) !important;
+  color: #FFFFFF !important;
+}
+
+body:not(.dark) .hover\:text-\[\#CCFF00\]:hover,
+html:not(.dark) .hover\:text-\[\#CCFF00\]:hover {
+  color: var(--color-primary) !important;
+}
+
+body:not(.dark) .hover\:border-\[\#CCFF00\]:hover,
+html:not(.dark) .hover\:border-\[\#CCFF00\]:hover {
+  border-color: var(--color-primary) !important;
+}
+
+body:not(.dark) .bg-\[\#CCFF00\]\/40,
+body:not(.dark) .bg-\[\#CCFF00\]\/30,
+body:not(.dark) .bg-\[\#CCFF00\]\/20,
+html:not(.dark) .bg-\[\#CCFF00\]\/40,
+html:not(.dark) .bg-\[\#CCFF00\]\/30,
+html:not(.dark) .bg-\[\#CCFF00\]\/20 {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+}
+
+body:not(.dark) .bg-\[\#FF2E93\],
+html:not(.dark) .bg-\[\#FF2E93\],
+body:not(.dark) .bg-\[\#FF007F\],
+html:not(.dark) .bg-\[\#FF007F\] {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+body:not(.dark) .text-\[\#FF2E93\],
+html:not(.dark) .text-\[\#FF2E93\],
+body:not(.dark) .text-\[\#FF007F\],
+html:not(.dark) .text-\[\#FF007F\] {
+  color: var(--color-primary) !important;
+}
+
+body:not(.dark) .border-\[\#FF2E93\],
+html:not(.dark) .border-\[\#FF2E93\],
+body:not(.dark) .border-\[\#FF007F\],
+html:not(.dark) .border-\[\#FF007F\] {
+  border-color: var(--color-primary) !important;
+}
+
+body:not(.dark) .hover\:bg-\[\#FF2E93\]:hover,
+html:not(.dark) .hover\:bg-\[\#FF2E93\]:hover {
+  background-color: var(--color-primary-hover) !important;
+  color: #FFFFFF !important;
 }
 
 /* Dark Mode Overrides for Additive Theme Coexistence */

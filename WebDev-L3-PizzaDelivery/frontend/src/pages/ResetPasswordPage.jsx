@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import StickerBadge from '../components/StickerBadge.jsx';
+import authService from '../services/authService.js';
 
 export default function ResetPasswordPage({ onNavigate, token: propToken }) {
   // Extract token from prop or from window location pathname (/reset-password/:token)
@@ -47,21 +48,9 @@ export default function ResetPasswordPage({ onNavigate, token: propToken }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/reset-password/${token}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newPassword }),
-      });
+      const data = await authService.resetPassword({ token, newPassword });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to reset password.');
-      }
-
-      setStatusMsg({ text: '🎉 Password reset successfully! Redirecting to login...', isError: false });
+      setStatusMsg({ text: data?.message || '🎉 Password reset successfully! Redirecting to login...', isError: false });
       setTimeout(() => {
         if (onNavigate) {
           onNavigate('login');
@@ -71,7 +60,7 @@ export default function ResetPasswordPage({ onNavigate, token: propToken }) {
       }, 2500);
     } catch (err) {
       console.error('Reset Password Error:', err);
-      setStatusMsg({ text: err.message || 'An error occurred. Please try again.', isError: true });
+      setStatusMsg({ text: err.response?.data?.message || err.message || 'An error occurred. Please try again.', isError: true });
     } finally {
       setLoading(false);
     }
