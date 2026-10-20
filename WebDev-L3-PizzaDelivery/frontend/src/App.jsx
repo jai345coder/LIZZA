@@ -35,12 +35,6 @@ export default function App() {
 
   const { user, isAdmin } = useAuth();
 
-  // Show PAGE NAVIGATOR only in dev mode OR when ?debug=true is in the URL
-  const showDebugNav =
-    import.meta.env.DEV ||
-    (typeof window !== 'undefined' &&
-      new URLSearchParams(window.location.search).get('debug') === 'true');
-
   const pages = [
     { id: 'landing', label: '🔥 Landing Page (Showcase)', component: LandingPage },
     { id: 'login', label: '1. Login / Register', component: LoginPage },
@@ -66,14 +60,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full relative bg-[#FFF5F0]">
-      {/* Side Drawer Page Navigator — dev-only (hidden in production) */}
-      {showDebugNav && (
-        <ScreenPreviewSidebar
-          activeTab={activeTab}
-          onNavigate={handleNavigate}
-          pages={pages}
-        />
-      )}
+      {/* Side Drawer Page Navigator */}
+      <ScreenPreviewSidebar
+        activeTab={activeTab}
+        onNavigate={handleNavigate}
+        pages={pages}
+      />
 
       {/* Active Page Renderer */}
       <ComponentToRender
