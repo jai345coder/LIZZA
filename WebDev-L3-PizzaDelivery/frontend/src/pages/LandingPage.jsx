@@ -138,7 +138,7 @@ function InfiniteCurvedPizzaTrack({ isDark }) {
                 className="w-full h-full object-cover rounded-full"
               />
               <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-              <span className="absolute bottom-1 bg-black/80 text-white font-heading font-black text-[9px] px-1.5 py-0.5 rounded border border-white/30 backdrop-blur-sm whitespace-nowrap">
+              <span className="absolute bottom-2 bg-black/80 text-white font-heading font-black text-[8px] px-1 py-0.5 rounded border border-white/30 backdrop-blur-sm whitespace-nowrap max-w-[90%] truncate text-center">
                 {item.tag}
               </span>
             </div>
@@ -283,24 +283,25 @@ export default function LandingPage({ onNavigate }) {
           <StickerBadge text="🔥 NEW DROP OUT NOW" variant="pink" size="md" />
         </div>
 
-        {/* Main Headline with Stacked Sticker Badges */}
+        {/* Main Headline */}
         <div className="relative inline-block my-2">
           <h1 className={`font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight uppercase leading-[0.95] max-w-5xl ${
             isDark ? 'text-white' : 'text-[#1E1E1E]'
           }`}>
             PIZZA HITS DIFFERENT
           </h1>
-          {/* Stacked Neobrutalist Sticker Badge directly overlapping the title */}
-          <div className="absolute -bottom-3 sm:-bottom-5 right-4 sm:right-16 transform rotate-[-8deg] z-10 hover:rotate-0 hover:scale-105 transition-all cursor-pointer">
-            <StickerBadge text="🍕 100% FRESH & CHAOTIC" variant={isDark ? 'pink' : 'lime'} size="lg" className="neo-shadow-lg" />
-          </div>
+        </div>
+
+        {/* Sticker Badge below headline — no overlap */}
+        <div className="mt-3 transform rotate-[-3deg] hover:rotate-0 hover:scale-105 transition-all cursor-pointer z-10">
+          <StickerBadge text="🍕 100% FRESH & CHAOTIC" variant={isDark ? 'pink' : 'lime'} size="lg" className="neo-shadow-lg" />
         </div>
 
         {/* Sub CTA Button */}
-        <div className="mt-8 relative z-20">
+        <div className="mt-6 relative z-20 flex justify-center w-full">
           <button
             onClick={() => handleNav('menu')}
-            className={`neo-btn px-8 py-4 font-heading font-black text-base sm:text-lg uppercase tracking-wider rounded-2xl flex items-center gap-3 transition-all cursor-pointer ${
+            className={`neo-btn w-full max-w-xs sm:w-auto px-8 py-3 sm:py-4 font-heading font-black text-base sm:text-lg uppercase tracking-wider rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer ${
               isDark
                 ? 'bg-white text-black shadow-[4px_4px_0px_#CCFF00] hover:bg-[#CCFF00]'
                 : 'bg-[#FF6B35] text-white shadow-[4px_4px_0px_#1E1E1E] hover:bg-[#ff5a22]'
